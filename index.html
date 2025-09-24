@@ -14,7 +14,7 @@
             color: #333;
         }
 
-        /* 1. Tela de Splash (mantido) */
+        /* 1. Tela de Splash */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -54,7 +54,6 @@
             height: 100vh;
             opacity: 0;
             transition: opacity 1s ease-in-out;
-            /* Adicionado overflow para rolagem na tela principal, não no body */
             overflow: hidden;
         }
 
@@ -90,7 +89,7 @@
             overflow-y: auto;
         }
 
-        /* Estilo do cartão de produto (mantido) */
+        /* Estilo do cartão de produto */
         .product-card {
             background-color: white;
             border-radius: 8px;
@@ -109,11 +108,21 @@
             margin-bottom: 10px;
             cursor: pointer;
         }
+        
+        /* Estilos para a lista de descrição */
+        .product-card ul {
+            padding-left: 20px;
+            margin: 5px 0;
+            list-style-type: disc;
+        }
+        .product-card li {
+            margin-bottom: 5px;
+        }
 
         .product-card p {
             margin: 5px 0;
         }
-
+        
         .product-card p strong {
             font-weight: bold;
         }
@@ -123,7 +132,7 @@
             font-weight: bold;
         }
 
-        /* Estilo do botão do WhatsApp (mantido) */
+        /* Estilo do botão do WhatsApp */
         .product-whatsapp-btn {
             display: flex;
             align-items: center;
@@ -136,7 +145,7 @@
             font-size: 14px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: auto; /* Empurra o botão para o final do cartão */
         }
 
         .product-whatsapp-btn img {
@@ -147,7 +156,7 @@
             cursor: pointer;
         }
 
-        /* Estilos do Modal de tela cheia (mantido) */
+        /* Estilos do Modal de tela cheia */
         #fullscreen-modal {
             position: fixed;
             top: 0;
@@ -180,33 +189,28 @@
             font-weight: bold;
             cursor: pointer;
         }
-        
+
         /* Media Queries para responsividade */
         @media (max-width: 768px) {
-            /* Oculta a barra lateral em telas menores que 768px */
             .sidebar {
                 display: none;
             }
 
-            /* Faz o layout principal ocupar a tela inteira */
             #main-screen {
                 display: block;
                 height: auto;
                 overflow-y: auto;
             }
-            
-            /* Ajusta a grade para 1 coluna em telas menores */
+
             .content-grid {
                 grid-template-columns: 1fr;
-                padding-top: 20px; /* Garante que o topo da página não fique "preso" */
+                padding-top: 20px;
             }
 
-            /* Centraliza a grade */
             .product-card {
                 margin: 0 auto;
             }
 
-            /* Garante que o modal de tela cheia se adapte a celulares */
             #fullscreen-modal img {
                 max-width: 100%;
                 max-height: 100%;
@@ -243,23 +247,60 @@
             const closeBtn = document.querySelector('.close-btn');
 
             const products = [
-                { imageUrl: 'https://lh3.googleusercontent.com/d/1_G-fjmPaD1KoHcA_bHksVy9x6zN7WD-8', code: 'Site/App do Time', description: '*Criação de e-mail institucional para o time. *Configuração e publicação de site em conta GitHub Pages. *Organização de conta no Google Drive para armazenamento de arquivos e imagens. *Desenvolvimento de identidade visual inicial: brasão e imagem de fundo na tela de carregamento. *Estruturação do layout da tela inicial com design personalizado. *Implementação de menus principais: Notícias, Jogadores, História, Redes Sociais, Patrocinadores e Galeria.', retailPrice: 'Criação R$150,00 / Dominio R$250,00 / Atualização R$15,00' },
-                { imageUrl: 'https://lh3.googleusercontent.com/d/1ZrdQ5vRKu75nr-YHKdqrhcbbPeQsdoBp', code: 'Cartaz/Banner Jogo', description: 'Cataz e Banner *Dia do jogo, *Escalação do time, *Logo/brasão de time e capeonato, Mascote Time em .PNG', retailPrice: 'R$15,00' },
-                { imageUrl: 'https://lh3.googleusercontent.com/d/1SC7N5ITTKcqWg_rcp7AbxdjtVxX8Vzdu', code: 'Banner Animado', description: 'Cartaz e Banner time Animado .GIF ou .MP4', retailPrice: 'R$25,00' },
-                { imageUrl: 'https://lh3.googleusercontent.com/d/1bZ1qn5-_0TB07Yrybcf3K1BR2N6LPUsd', code: 'Figurinha Jogador', description: 'Figurinhas pesonalkizada para jogador.', retailPrice: 'R$15,00' },
-                { imageUrl: 'https://lh3.googleusercontent.com/d/1KcrzMT81PhmowmLoYEMu7mfGJ1EjU5Iz', code: 'Brasão e Mascote', description: 'Criação de brasão e mascote em .PNG para times e eventros', retailPrice: 'R$50,00' },
-                { imageUrl: 'https://lh3.googleusercontent.com/d/19s_Q8swdAtKh1cwte0aMA_eFf3iiqV4X', code: 'Curriculo', description: 'Curriculos simples ou personalizado em .PDF .', retailPrice: 'A partir de R$10,00' },
-                { imageUrl: 'https://lh3.googleusercontent.com/d/1IEtoHSML32djZ-WwLWA5uwcoDXVmXATj', code: 'Logo', description: 'Criação de logos, banners e cartazer para sua empresa.', retailPrice: 'A partir de R$15,00' }
+                {
+                    imageUrl: 'https://lh3.googleusercontent.com/d/1_G-fjmPaD1KoHcA_bHksVy9x6zN7WD-8',
+                    code: 'Site/App do Time',
+                    description: [
+                        'Criação de e-mail institucional para o time.',
+                        'Configuração e publicação de site em conta GitHub Pages.',
+                        'Organização de conta no Google Drive para armazenamento de arquivos e imagens.',
+                        'Desenvolvimento de identidade visual inicial: brasão e imagem de fundo na tela de carregamento.',
+                        'Estruturação do layout da tela inicial com design personalizado.',
+                        'Implementação de menus principais: Notícias, Jogadores, História, Redes Sociais, Patrocinadores e Galeria.'
+                    ],
+                    prices: [
+                        'Criação: R$150,00',
+                        'Domínio: R$250,00',
+                        'Atualização: R$15,00'
+                    ]
+                },
+                { imageUrl: 'https://lh3.googleusercontent.com/d/1ZrdQ5vRKu75nr-YHKdqrhcbbPeQsdoBp', code: 'Cartaz/Banner Jogo', description: ['Cartaz e Banner: Dia do jogo, Escalação do time, Logo/brasão de time e campeonato, Mascote Time em .PNG'], prices: ['Valor: R$15,00'] },
+                { imageUrl: 'https://lh3.googleusercontent.com/d/1SC7N5ITTKcqWg_rcp7AbxdjtVxX8Vzdu', code: 'Banner Animado', description: ['Cartaz e Banner time Animado .GIF ou .MP4'], prices: ['Valor: R$25,00'] },
+                { imageUrl: 'https://lh3.googleusercontent.com/d/1bZ1qn5-_0TB07Yrybcf3K1BR2N6LPUsd', code: 'Figurinha Jogador', description: ['Figurinhas personalizadas para jogador.'], prices: ['Valor: R$15,00'] },
+                { imageUrl: 'https://lh3.googleusercontent.com/d/1KcrzMT81PhmowmLoYEMu7mfGJ1EjU5Iz', code: 'Brasão e Mascote', description: ['Criação de brasão e mascote em .PNG para times e eventos'], prices: ['Valor: R$50,00'] },
+                { imageUrl: 'https://lh3.googleusercontent.com/d/19s_Q8swdAtKh1cwte0aMA_eFf3iiqV4X', code: 'Curriculo', description: ['Curriculos simples ou personalizado em .PDF.'], prices: ['Valor: A partir de R$10,00'] },
+                { imageUrl: 'https://lh3.googleusercontent.com/d/1IEtoHSML32djZ-WwLWA5uwcoDXVmXATj', code: 'Logo', description: ['Criação de logos, banners e cartazes para sua empresa.'], prices: ['Valor: A partir de R$15,00'] }
             ];
 
             function createProductCard(product) {
                 const card = document.createElement('div');
                 card.className = 'product-card';
+                
+                // Cria a lista de descrição
+                let descriptionList = '';
+                if (product.description.length > 0) {
+                    descriptionList = '<ul>';
+                    product.description.forEach(item => {
+                        descriptionList += `<li>${item}</li>`;
+                    });
+                    descriptionList += '</ul>';
+                }
+
+                // Cria a lista de preços
+                let pricesList = '';
+                if (product.prices.length > 0) {
+                    pricesList = '<ul>';
+                    product.prices.forEach(item => {
+                        pricesList += `<li><strong>${item}</strong></li>`;
+                    });
+                    pricesList += '</ul>';
+                }
+
                 card.innerHTML = `
                     <img src="${product.imageUrl}" alt="Imagem do Produto ${product.code}">
-                    <p class="code">  ${product.code}</p>
-                    <p>${product.description}</p>
-                    <p class="price"><strong>Valor:</strong> ${product.retailPrice}</p>
+                    <p class="code">${product.code}</p>
+                    ${descriptionList}
+                    ${pricesList}
                     <button class="whatsapp-button product-whatsapp-btn" data-product-code="${product.code}">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="Ícone do WhatsApp">
                         Consultar no WhatsApp
@@ -295,7 +336,7 @@
                 button.addEventListener('click', () => {
                     const productCode = button.getAttribute('data-product-code');
                     const phoneNumber = '5543984399533'; 
-                    const message = `Olá! Tenho interesse no produto de código: ${productCode}. Poderia me dar mais informações?`;
+                    const message = `Olá! Tenho interesse no serviço: ${productCode}. Poderia me dar mais informações?`;
                     
                     const whatsappLink = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
                     window.open(whatsappLink, '_blank');
